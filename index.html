@@ -60,4 +60,133 @@
       </div>
     </div>
 
-    <div id=
+    <div id="resultSection" class="result" style="display:none;" aria-live="polite">
+      <h2>Tu experiencia personalizada</h2>
+      <p class="lead" id="fraseAnimo"></p>
+      <div class="cards" id="recommendations"></div>
+      <div class="actions">
+        <button id="orderBtn" class="btn btn-primary">Pedir ahora</button>
+        <button id="callBtn" class="btn btn-secondary">Llamar a un barista</button>
+      </div>
+      <p style="margin-top:12px;color:var(--muted);font-size:13px;">
+        Antes de confirmar, revisa las restricciones: <span id="alergiaNota" style="font-weight:700;"></span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const BARISTA_PHONE = '+573000000000';
+
+    // ====== NUEVAS RECOMENDACIONES CON EJEMPLOS EXACTOS ======
+    const OBRAS = {
+      "Barroco": "Pintura barroca: 'Las Meninas' de Velázquez — luz dramática y detalle realista",
+      "Renacentista": "Obra renacentista: 'El nacimiento de Venus' de Botticelli — armonía y proporción",
+      "Impresionista": "Obra impresionista: 'La noche estrellada' de Van Gogh — pinceladas sueltas y color vibrante",
+      "Abstracto": "Composición abstracta: 'Composición VII' de Kandinsky — formas y color emocional",
+      "Pop Art": "Obra pop: 'Campbell’s Soup' de Warhol — reinterpretación de objetos cotidianos"
+    };
+    const REPOSTERIA = {
+      "Chocolate Negro": "Trufas de chocolate 70% — intensidad equilibrada",
+      "Arequipe": "Brownie con arequipe — textura y dulzura",
+      "Frutas": "Galletas de mantequilla con glaseado cítrico",
+      "Caramelo": "Fudge de caramelo salado",
+      "Especiado": "Mini pan de especias con toque de canela"
+    };
+    const BEBIDAS = {
+      "Cítricas y Florales": "Frapuccino con caramelo — notas dulces y cremosas",
+      "Chocolate y Nuez": "Latte de chocolate y nuez — sabor medio e intenso",
+      "Terrosas": "Café espresso con especias — notas terrosas y cálidas",
+      "Sin Café": "Té de frutos rojos — refrescante y sin cafeína"
+    };
+    const FRASES_ANIMO = {
+      "Feliz": "Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
+      "Melancólico": "Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
+      "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
+      "Relajado": "Respira lento: este es un momento para la calma y el gusto pausado."
+    };
+
+    const totalSteps = 5;
+    let currentStep = 1;
+    const stepsEls = Array.from(document.querySelectorAll('.step-panel'));
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+
+    function showStep(n){
+      stepsEls.forEach(s => s.classList.remove('active'));
+      document.querySelector(`.step-panel[data-step="${n}"]`).classList.add('active');
+      currentStep = n;
+      btnPrev.style.display = (n > 1) ? 'inline-flex' : 'none';
+      btnNext.textContent = (n === totalSteps) ? 'Ver recomendación' : 'Siguiente';
+      checkCanProceed();
+    }
+
+    function checkCanProceed(){
+      const panel = document.querySelector(`.step-panel[data-step="${currentStep}"]`);
+      const radios = panel.querySelectorAll('input[type="radio"]');
+      const text = panel.querySelector('input[type="text"], textarea, input[type="search"]');
+      btnNext.disabled = radios.length ? !Array.from(radios).some(r=>r.checked) : false;
+    }
+
+    document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.addEventListener('change', ()=>{ btnNext.disabled = false; }); });
+    document.getElementById('alergias').addEventListener('input', () => { btnNext.disabled = false; });
+
+    btnPrev.addEventListener('click', ()=>{ if(currentStep>1) showStep(currentStep-1); });
+    btnNext.addEventListener('click', ()=>{
+      if(currentStep < totalSteps){ showStep(currentStep + 1); } 
+      else { generarRecomendacion(); }
+    });
+
+    function generarRecomendacion(){
+      const estetica = document.querySelector('input[name="estetica"]:checked')?.value || 'Renacentista';
+      const dulce = document.querySelector('input[name="dulce"]:checked')?.value || 'Frutas';
+      const cafe = document.querySelector('input[name="cafe"]:checked')?.value || 'Chocolate y Nuez';
+      const animo = document.querySelector('input[name="animo"]:checked')?.value || 'Relajado';
+      const alergias = document.getElementById('alergias').value.trim();
+
+      const obra = OBRAS[estetica];
+      const postre = REPOSTERIA[dulce];
+      const bebida = BEBIDAS[cafe];
+      const frase = FRASES_ANIMO[animo];
+
+      document.getElementById('fraseAnimo').textContent = frase;
+
+      const recCont = document.getElementById('recommendations');
+      recCont.innerHTML = '';
+      const createMini = (title, text) => {
+        const d = document.createElement('div');
+        d.className = 'mini-card';
+        d.innerHTML = `<strong style="display:block;margin-bottom:6px;">${title}</strong><div style="font-size:14px;color:var(--muted)">${text}</div>`;
+        return d;
+      };
+
+      recCont.appendChild(createMini('Obra sugerida', obra));
+      recCont.appendChild(createMini('Maridaje y bebida', bebida));
+      recCont.appendChild(createMini('Repostería', postre));
+
+      document.getElementById('alergiaNota').textContent = alergias ? alergias.toUpperCase() : '— Ninguna registrada —';
+      document.getElementById('resultSection').style.display = 'block';
+      document.getElementById('resultSection').scrollIntoView({behavior:'smooth'});
+
+      document.getElementById('orderBtn').onclick = ()=> {
+        const email = 'tu@correo.com';
+        const subject = encodeURIComponent('Pedido experiencia — Café Galería Orquídea');
+        const body = encodeURIComponent(
+`Hola,
+Quiero pedir la experiencia personalizada:
+- Estado de ánimo: ${animo}
+- Obra sugerida: ${obra}
+- Bebida: ${bebida}
+- Repostería: ${postre}
+- Alergias/Restricciones: ${alergias || 'Ninguna'}
+Gracias.`
+        );
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      };
+      document.getElementById('callBtn').onclick = ()=> { window.location.href = `tel:${BARISTA_PHONE}`; };
+    }
+
+    showStep(1);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !btnNext.disabled){ btnNext.click(); } });
+  </script>
+</body>
+</html>
