@@ -1,437 +1,465 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Café Galería Orquídea — Experiencia</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Café Galería Orquídea — Experiencia</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --orchid-1: #efe8f6;
-  --orchid-2: #e6d6f0;
-  --orchid-3: #d8c0e8;
-  --accent: #6b2f6e;
-  --warm: #a87b56;
-  --card-bg: rgba(255,255,255,0.9);
-  --muted: #6f635f;
-  --radius: 14px;
-}
-html,body{
-  height:100%;
-  margin:0;
-  font-family: "Playfair Display", serif;
-  background-color: var(--orchid-1);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-body{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:28px;
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(216,192,232,0.25), transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(230,214,240,0.18), transparent 20%);
-}
-.wrap{
-  width:100%;
-  max-width:720px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
-  border-radius: var(--radius);
-  box-shadow: 0 20px 60px rgba(106,78,110,0.14);
-  padding:28px;
-  box-sizing:border-box;
-}
-header{
-  text-align:center;
-  margin-bottom:18px;
-}
-header h1{
-  margin:0;
-  font-size:28px;
-  color: var(--accent);
-  letter-spacing:0.4px;
-}
-header p{
-  margin:8px 0 0;
-  color:var(--muted);
-  font-size:15px;
-}
-.card{
-  background: var(--card-bg);
-  border-radius:12px;
-  padding:20px;
-  margin-top:18px;
-  box-shadow:0 8px 24px rgba(102,78,102,0.06);
-  position:relative;
-  min-height:160px;
-}
-.step-title{
-  font-size:18px;
-  margin:0 0 8px;
-  color: var(--accent);
-}
-.step-desc{
-  margin:0 0 16px;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.4;
-  max-width:90%;
-}
-.options{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.option{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px 14px;
-  border-radius:10px;
-  border:1px solid rgba(107,47,110,0.08);
-  cursor:pointer;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s;
-  background: transparent;
-}
-.option:hover{
-  transform: translateY(-4px);
-  box-shadow:0 8px 20px rgba(107,47,110,0.06);
-}
-.option input[type="radio"]{
-  width:18px;
-  height:18px;
-  accent-color: var(--accent);
-}
-.option label{
-  cursor:pointer;
-  font-size:15px;
-  color:#3e3540;
-}
-.nav{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  margin-top:18px;
-}
-button.btn{
-  flex:1;
-  border:none;
-  padding:12px 14px;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-  font-size:15px;
-  transition: transform .12s ease, opacity .12s;
-}
-button.btn:active{ transform: translateY(1px); }
-.btn-secondary{
-  background: transparent;
-  color: var(--muted);
-  border:1px solid rgba(99,86,99,0.06);
-}
-.btn-primary{
-  background: linear-gradient(180deg, var(--accent), #5a255f);
-  color:#fff;
-  box-shadow:0 8px 20px rgba(107,47,110,0.14);
-}
-.btn-primary:disabled{
-  opacity:0.45;
-  cursor:not-allowed;
-}
-.steps{
-  position:relative;
-  min-height:220px;
-}
-.step-panel{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transform: translateY(10px);
-  transition: opacity .32s ease, transform .32s ease;
-  pointer-events:none;
-}
-.step-panel.active{
-  opacity:1;
-  transform: translateY(0);
-  pointer-events:auto;
-  position:relative;
-}
-.result{
-  margin-top:18px;
-  padding:20px;
-  border-radius:12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,244,248,0.95));
-  border:1px solid rgba(107,47,110,0.06);
-  box-shadow:0 16px 40px rgba(107,47,110,0.06);
-}
-.result h2{
-  margin:0 0 8px;
-  color:var(--accent);
-  font-size:20px;
-}
-.result p.lead{
-  margin:0 0 14px;
-  color:var(--muted);
-}
-.result .cards{
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:12px;
-  margin-top:12px;
-}
-.mini-card{
-  padding:12px;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(232,221,238,0.5), rgba(255,255,255,0.6));
-  border:1px solid rgba(107,47,110,0.04);
-  color:#3b2e3a;
-}
-.result .actions{
-  margin-top:14px;
-  display:flex;
-  gap:10px;
-}
-@media (max-width:520px){
-  .wrap{ padding:18px; }
-  header h1{ font-size:20px; }
-  .card{ padding:16px; }
-}
-</style>
+  <style>
+    :root{
+      --orchid-1: #efe8f6;
+      --orchid-2: #e6d6f0;
+      --orchid-3: #d8c0e8;
+      --accent: #6b2f6e;
+      --warm: #a87b56;
+      --card-bg: rgba(255,255,255,0.9);
+      --muted: #6f635f;
+      --radius: 14px;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Playfair Display", serif;
+      background-color: var(--orchid-1);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(216,192,232,0.25), transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(230,214,240,0.18), transparent 20%);
+      background-repeat: no-repeat;
+      background-size: cover;
+      min-height:100vh;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 720px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(106, 78, 110, 0.14);
+      padding: 28px;
+      box-sizing: border-box;
+      backdrop-filter: blur(4px);
+    }
+    header {
+      text-align:center;
+      margin-bottom: 18px;
+    }
+    header h1{
+      margin:0;
+      font-size:28px;
+      color: var(--accent);
+      letter-spacing:0.4px;
+    }
+    header p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 18px;
+      box-shadow: 0 8px 24px rgba(102, 78, 102, 0.06);
+      position:relative;
+      min-height:160px;
+      overflow: hidden;
+    }
+    .step-title {
+      font-size:18px;
+      margin:0 0 8px;
+      color: var(--accent);
+    }
+    .step-desc {
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+      max-width: 90%;
+    }
+    .options {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .option {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(107,47,110,0.08);
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s;
+      background: transparent;
+    }
+    .option:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(107,47,110,0.06);
+    }
+    .option input[type="radio"]{
+      width:18px;
+      height:18px;
+      accent-color: var(--accent);
+    }
+    .option label{
+      cursor:pointer;
+      font-size:15px;
+      color: #3e3540;
+    }
+    .nav {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:18px;
+    }
+    button.btn {
+      flex:1;
+      border: none;
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+      transition: transform .12s ease, opacity .12s;
+    }
+    button.btn:active{ transform: translateY(1px); }
+    .btn-secondary{
+      background: transparent;
+      color: var(--muted);
+      border:1px solid rgba(99,86,99,0.06);
+    }
+    .btn-primary{
+      background: linear-gradient(180deg, var(--accent), #5a255f);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(107,47,110,0.14);
+    }
+    .btn-primary:disabled{
+      opacity:0.45;
+      cursor: not-allowed;
+    }
+    .steps {
+      position:relative;
+      min-height:220px;
+    }
+    .step-panel{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity .32s ease, transform .32s ease;
+      pointer-events:none;
+    }
+    .step-panel.active{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+      position:relative;
+    }
+    .result {
+      margin-top:18px;
+      padding:20px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,244,248,0.95));
+      border:1px solid rgba(107,47,110,0.06);
+      box-shadow: 0 16px 40px rgba(107,47,110,0.06);
+    }
+    .result h2{
+      margin:0 0 8px;
+      color:var(--accent);
+      font-size:20px;
+    }
+    .result p.lead{
+      margin:0 0 14px;
+      color:var(--muted);
+    }
+    .result .cards {
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .mini-card{
+      padding:12px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(232,221,238,0.5), rgba(255,255,255,0.6));
+      border:1px solid rgba(107,47,110,0.04);
+      color:#3b2e3a;
+    }
+    .result .actions{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+    }
+    @media (max-width:520px){
+      .wrap{ padding:18px; }
+      header h1{ font-size:20px; }
+      .card{ padding:16px; }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap" role="main" aria-labelledby="mainTitle">
-  <header>
-    <h1 id="mainTitle">Café Galería Orquídea</h1>
-    <p>Responde unas breves preguntas para personalizar tu visita —una experiencia hecha a medida.</p>
-  </header>
+  <div class="wrap" role="main" aria-labelledby="mainTitle">
+    <header>
+      <h1 id="mainTitle">Café Galería Orquídea</h1>
+      <p>Responde unas breves preguntas para personalizar tu visita —una experiencia hecha a medida.</p>
+    </header>
 
-  <div class="card" aria-live="polite">
-    <div class="steps" id="steps">
+    <div class="card" aria-live="polite">
+      <div class="steps" id="steps">
 
-      <!-- STEP 1 -->
-      <section class="step-panel active" data-step="1" id="step-1">
-        <h3 class="step-title">1. ¿Qué estilo visual te atrae hoy?</h3>
-        <p class="step-desc">Tu preferencia guiará la sugerencia de la obra a visitar.</p>
-        <div class="options" role="radiogroup" aria-labelledby="step-1">
-          <div class="option">
-            <input type="radio" id="est-barroco" name="estetica" value="Barroco">
-            <label for="est-barroco">Barroco — contrastes intensos y detalles clásicos</label>
+        <!-- STEP 1: Estilo visual -->
+        <section class="step-panel active" data-step="1" id="step-1">
+          <h3 class="step-title">1. ¿Qué estilo visual te atrae hoy?</h3>
+          <p class="step-desc">Tu preferencia guiará la sugerencia de la obra a visitar.</p>
+          <div class="options" role="radiogroup" aria-labelledby="step-1">
+            <div class="option">
+              <input type="radio" id="est-barroco" name="estetica" value="Barroco">
+              <label for="est-barroco">Barroco — contrastes intensos y detalles clásicos</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="est-ren" name="estetica" value="Renacentista">
+              <label for="est-ren">Renacentista — armonía y proporción</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="est-imp" name="estetica" value="Impresionista">
+              <label for="est-imp">Impresionista — luz y pinceladas sueltas</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="est-abs" name="estetica" value="Abstracto">
+              <label for="est-abs">Abstracto — formas, color y emoción</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="est-pop" name="estetica" value="Pop Art">
+              <label for="est-pop">Pop Art — colores vivos y cultura popular</label>
+            </div>
           </div>
-          <div class="option">
-            <input type="radio" id="est-ren" name="estetica" value="Renacentista">
-            <label for="est-ren">Renacentista — armonía y proporción</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="est-imp" name="estetica" value="Impresionista">
-            <label for="est-imp">Impresionista — luz y pinceladas sueltas</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="est-abs" name="estetica" value="Abstracto">
-            <label for="est-abs">Abstracto — formas, color y emoción</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="est-pop" name="estetica" value="Pop Art">
-            <label for="est-pop">Pop Art — colores vivos y cultura popular</label>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- STEP 2 -->
-      <section class="step-panel" data-step="2" id="step-2">
-        <h3 class="step-title">2. ¿Qué te apetece de postre?</h3>
-        <p class="step-desc">Esto ayudará a elegir el maridaje dulce ideal.</p>
-        <div class="options" role="radiogroup" aria-labelledby="step-2">
-          <div class="option">
-            <input type="radio" id="dul-choc" name="dulce" value="Chocolate Negro">
-            <label for="dul-choc">Chocolate negro, intenso</label>
+        <!-- STEP 2: Postre -->
+        <section class="step-panel" data-step="2" id="step-2">
+          <h3 class="step-title">2. ¿Qué te apetece de postre?</h3>
+          <p class="step-desc">Esto ayudará a elegir el maridaje dulce ideal.</p>
+          <div class="options" role="radiogroup" aria-labelledby="step-2">
+            <div class="option">
+              <input type="radio" id="dul-choc" name="dulce" value="Chocolate Negro">
+              <label for="dul-choc">Chocolate negro, intenso</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="dul-areq" name="dulce" value="Arequipe">
+              <label for="dul-areq">Arequipe / dulce de leche</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="dul-fru" name="dulce" value="Frutas">
+              <label for="dul-fru">Frutas y cítricos, fresco</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="dul-caro" name="dulce" value="Caramelo">
+              <label for="dul-caro">Caramelo y vainilla, cremoso</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="dul-esp" name="dulce" value="Especiado">
+              <label for="dul-esp">Especiado — canela, jengibre</label>
+            </div>
           </div>
-          <div class="option">
-            <input type="radio" id="dul-areq" name="dulce" value="Arequipe">
-            <label for="dul-areq">Arequipe / dulce de leche</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="dul-fru" name="dulce" value="Frutas">
-            <label for="dul-fru">Frutas y cítricos, fresco</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="dul-caro" name="dulce" value="Caramelo">
-            <label for="dul-caro">Caramelo y vainilla, cremoso</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="dul-esp" name="dulce" value="Especiado">
-            <label for="dul-esp">Especiado — canela, jengibre</label>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- STEP 3 -->
-      <section class="step-panel" data-step="3" id="step-3">
-        <h3 class="step-title">3. ¿Qué tipo de bebida prefieres?</h3>
-        <p class="step-desc">Elegiremos la bebida que armonice con tu postre y obra.</p>
-        <div class="options" role="radiogroup" aria-labelledby="step-3">
-          <div class="option">
-            <input type="radio" id="caf-cit" name="cafe" value="Cítricas y Florales">
-            <label for="caf-cit">Frapuccino con caramelo — notas dulces y suaves</label>
+        <!-- STEP 3: Bebida según sensación -->
+        <section class="step-panel" data-step="3" id="step-3">
+          <h3 class="step-title">3. ¿Qué tipo de bebida te atrae hoy?</h3>
+          <p class="step-desc">Elige la sensación que deseas experimentar; el producto final se revelará al final.</p>
+          <div class="options" role="radiogroup" aria-labelledby="step-3">
+            <div class="option">
+              <input type="radio" id="beb-fri-ref" name="bebida" value="Fría y refrescante">
+              <label for="beb-fri-ref">Fría y refrescante</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="beb-cal-acog" name="bebida" value="Caliente y acogedora">
+              <label for="beb-cal-acog">Caliente y acogedora</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="beb-fres-esp" name="bebida" value="Fresca y especiada">
+              <label for="beb-fres-esp">Fresca y especiada</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="beb-suave" name="bebida" value="Suave y delicada">
+              <label for="beb-suave">Suave y delicada</label>
+            </div>
           </div>
-          <div class="option">
-            <input type="radio" id="caf-choc" name="cafe" value="Chocolate y Nuez">
-            <label for="caf-choc">Mocha de chocolate y nuez — sabor medio y reconfortante</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="caf-ter" name="cafe" value="Terrosas">
-            <label for="caf-ter">Café espresso intenso — notas terrosas y especiadas</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="caf-sin" name="cafe" value="Sin Café">
-            <label for="caf-sin">Infusión de frutos rojos — sin cafeína, aroma frutal</label>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- STEP 4 -->
-      <section class="step-panel" data-step="4" id="step-4">
-        <h3 class="step-title">4. ¿Cómo te sientes hoy?</h3>
-        <p class="step-desc">La emoción del día inspirará una frase de bienvenida.</p>
-        <div class="options" role="radiogroup" aria-labelledby="step-4">
-          <div class="option">
-            <input type="radio" id="ani-fel" name="animo" value="Feliz">
-            <label for="ani-fel">Radiante / feliz</label>
+        <!-- STEP 4: Estado de ánimo -->
+        <section class="step-panel" data-step="4" id="step-4">
+          <h3 class="step-title">4. ¿Cómo te sientes hoy?</h3>
+          <p class="step-desc">La emoción del día inspirará una frase de bienvenida.</p>
+          <div class="options" role="radiogroup" aria-labelledby="step-4">
+            <div class="option">
+              <input type="radio" id="ani-fel" name="animo" value="Feliz">
+              <label for="ani-fel">Radiante / feliz</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="ani-mel" name="animo" value="Melancólico">
+              <label for="ani-mel">Melancólico / pensativo</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="ani-cur" name="animo" value="Curioso">
+              <label for="ani-cur">Curioso / explorador</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="ani-rel" name="animo" value="Relajado">
+              <label for="ani-rel">Relajado / en paz</label>
+            </div>
           </div>
-          <div class="option">
-            <input type="radio" id="ani-mel" name="animo" value="Melancólico">
-            <label for="ani-mel">Melancólico / pensativo</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="ani-cur" name="animo" value="Curioso">
-            <label for="ani-cur">Curioso / explorador</label>
-          </div>
-          <div class="option">
-            <input type="radio" id="ani-rel" name="animo" value="Relajado">
-            <label for="ani-rel">Relajado / en paz</label>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- STEP 5 -->
-      <section class="step-panel" data-step="5" id="step-5">
-        <h3 class="step-title">5. Restricciones o alergias</h3>
-        <p class="step-desc">Escribe si tienes alergias (ej.: nueces, gluten). Esto nos ayuda a evitar ingredientes.</p>
-        <input id="alergias" name="alergias" placeholder="Ej. Nueces, Gluten" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);font-size:15px;">
-      </section>
+        <!-- STEP 5: Alergias -->
+        <section class="step-panel" data-step="5" id="step-5">
+          <h3 class="step-title">5. Restricciones o alergias</h3>
+          <p class="step-desc">Escribe si tienes alergias (ej.: nueces, gluten). Esto nos ayuda a evitar ingredientes.</p>
+          <div>
+            <input id="alergias" name="alergias" placeholder="Ej. Nueces, Gluten" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);font-size:15px;">
+          </div>
+        </section>
 
+      </div>
+
+      <div class="nav" aria-hidden="false">
+        <button id="btnPrev" class="btn btn-secondary" type="button" title="Anterior">Anterior</button>
+        <button id="btnNext" class="btn btn-primary" type="button" title="Siguiente" disabled>Siguiente</button>
+      </div>
     </div>
 
-    <div class="nav">
-      <button id="btnPrev" class="btn btn-secondary" type="button">Anterior</button>
-      <button id="btnNext" class="btn btn-primary" type="button">Siguiente</button>
+    <div id="resultSection" class="result" style="display:none;" aria-live="polite">
+      <h2>Tu experiencia personalizada</h2>
+      <p class="lead" id="fraseAnimo"></p>
+
+      <div class="cards" id="recommendations"></div>
+
+      <div class="actions">
+        <button id="orderBtn" class="btn btn-primary">Pedir ahora</button>
+        <button id="callBtn" class="btn btn-secondary">Llamar a un barista</button>
+      </div>
+
+      <p style="margin-top:12px;color:var(--muted);font-size:13px;">
+        Antes de confirmar, revisa las restricciones: <span id="alergiaNota" style="font-weight:700;"></span>
+      </p>
     </div>
   </div>
-
-  <div id="resultSection" class="result" style="display:none;">
-    <h2>Tu experiencia personalizada</h2>
-    <p class="lead" id="fraseAnimo"></p>
-    <div class="cards" id="recommendations"></div>
-    <div class="actions">
-      <button id="orderBtn" class="btn btn-primary">Pedir ahora</button>
-      <button id="callBtn" class="btn btn-secondary">Llamar a un barista</button>
-    </div>
-    <p style="margin-top:12px;color:var(--muted);font-size:13px;">
-      Antes de confirmar, revisa las restricciones: <span id="alergiaNota" style="font-weight:700;"></span>
-    </p>
-  </div>
-</div>
 
 <script>
-const BARISTA_PHONE='+573000000000';
+const BARISTA_PHONE = '+573000000000';
 
 const OBRAS = {
-  "Barroco": "Obra barroca: 'La Crucifixión' — detalle dramático y luz intensa",
-  "Renacentista": "Obra renacentista: 'La Última Cena' — armonía y proporción",
-  "Impresionista": "Obra impresionista: 'La noche estrellada' de Van Gogh — luz y color",
-  "Abstracto": "Composición abstracta: formas y color emocional",
-  "Pop Art": "Serigrafía pop — objetos cotidianos reinterpretados"
+  "Barroco": "La Crucifixión de Caravaggio — dramatismo y detalle intenso",
+  "Renacentista": "La Mona Lisa de Leonardo da Vinci — armonía y proporción",
+  "Impresionista": "La Noche Estrellada de Van Gogh — luz y pinceladas sueltas",
+  "Abstracto": "Composición abstracta de Kandinsky — color y emoción",
+  "Pop Art": "Campbell's Soup de Warhol — colores vivos y cultura popular"
 };
 const REPOSTERIA = {
-  "Chocolate Negro":"Trufas de chocolate 70% — intensidad equilibrada",
-  "Arequipe":"Brownie con arequipe — textura y dulzura",
-  "Frutas":"Galletas de mantequilla con glaseado cítrico",
-  "Caramelo":"Fudge de caramelo salado",
-  "Especiado":"Mini pan de especias con toque de canela"
+  "Chocolate Negro": "Trufas de chocolate 70% — intenso y equilibrado",
+  "Arequipe": "Brownie con arequipe — textura y dulzura",
+  "Frutas": "Tarta de frutas cítricas — fresco y ácido",
+  "Caramelo": "Fudge de caramelo salado — cremoso y dulce",
+  "Especiado": "Mini pan de especias con canela y jengibre"
 };
 const BEBIDAS = {
-  "Cítricas y Florales":"Frapuccino con caramelo — notas dulces y suaves",
-  "Chocolate y Nuez":"Mocha de chocolate y nuez — sabor medio y reconfortante",
-  "Terrosas":"Café espresso intenso — notas terrosas y especiadas",
-  "Sin Café":"Infusión de frutos rojos — sin cafeína, aroma frutal"
+  "Fría y refrescante": "Frapuccino con caramelo — notas dulces y suaves",
+  "Caliente y acogedora": "Café latte — cremoso y reconfortante",
+  "Fresca y especiada": "Té chai especiado — cálido y aromático",
+  "Suave y delicada": "Infusión de frutos rojos — suave y delicada"
 };
 const FRASES_ANIMO = {
-  "Feliz":"Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
-  "Melancólico":"Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
-  "Curioso":"Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
-  "Relajado":"Respira lento: este es un momento para la calma y el gusto pausado."
+  "Feliz": "Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
+  "Melancólico": "Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
+  "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
+  "Relajado": "Respira lento: este es un momento para la calma y el gusto pausado."
 };
 
-const stepsEls=Array.from(document.querySelectorAll('.step-panel'));
-const btnPrev=document.getElementById('btnPrev');
-const btnNext=document.getElementById('btnNext');
-let currentStep=1;
-const totalSteps=5;
+const totalSteps = 5;
+let currentStep = 1;
+const stepsEls = Array.from(document.querySelectorAll('.step-panel'));
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
 
-function showStep(n){
-  stepsEls.forEach(s=>s.classList.remove('active'));
-  document.querySelector(`.step-panel[data-step="${n}"]`).classList.add('active');
-  currentStep=n;
-  btnPrev.style.display=(n>1)?'inline-flex':'none';
-  btnNext.textContent=(n===totalSteps)?'Ver recomendación':'Siguiente';
-  checkCanProceed();
-}
-
-function checkCanProceed(){
-  const panel=document.querySelector(`.step-panel[data-step="${currentStep}"]`);
-  const radios=panel.querySelectorAll('input[type="radio"]');
-  const text=panel.querySelector('input[type="text"], textarea');
-  if(radios.length>0){
-    btnNext.disabled=!Array.from(radios).some(r=>r.checked);
-  } else btnNext.disabled=false;
-}
-
-document.querySelectorAll('input[type="radio"]').forEach(r=>{
-  r.addEventListener('change',()=>{btnNext.disabled=false;});
-});
-document.getElementById('alergias').addEventListener('input',()=>{btnNext.disabled=false;});
-
-btnPrev.addEventListener('click',()=>{showStep(currentStep-1);});
-
-btnNext.addEventListener('click',()=>{
-  if(currentStep<totalSteps){
-    showStep(currentStep+1);
+const enableNextCheck = () => {
+  const currentPanel = stepsEls[currentStep-1];
+  const checked = currentPanel.querySelector('input[type="radio"]:checked');
+  if(currentStep === 5){ // input text
+    btnNext.disabled = !document.getElementById('alergias').value.trim();
   } else {
-    // mostrar resultados
-    const estilo=document.querySelector('input[name="estetica"]:checked')?.value;
-    const dulce=document.querySelector('input[name="dulce"]:checked')?.value;
-    const cafe=document.querySelector('input[name="cafe"]:checked')?.value;
-    const animo=document.querySelector('input[name="animo"]:checked')?.value;
-    const alergias=document.getElementById('alergias').value.trim();
-    document.getElementById('fraseAnimo').textContent=FRASES_ANIMO[animo]||'';
-    document.getElementById('recommendations').innerHTML=`
-      <div class="mini-card"><strong>Obra sugerida</strong><br>${OBRAS[estilo]||''}</div>
-      <div class="mini-card"><strong>Maridaje y bebida</strong><br>${BEBIDAS[cafe]||''}</div>
-      <div class="mini-card"><strong>Repostería</strong><br>${REPOSTERIA[dulce]||''}</div>
-    `;
-    document.getElementById('alergiaNota').textContent=alergias||'— Ninguna registrada —';
-    document.getElementById('resultSection').style.display='block';
-    document.getElementById('steps').style.display='none';
-    document.querySelector('.nav').style.display='none';
+    btnNext.disabled = !checked;
+  }
+};
+
+stepsEls.forEach(panel=>{
+  panel.addEventListener('change',enableNextCheck);
+});
+document.getElementById('alergias').addEventListener('input',enableNextCheck);
+
+btnNext.addEventListener('click', ()=>{
+  if(currentStep < totalSteps){
+    stepsEls[currentStep-1].classList.remove('active');
+    currentStep++;
+    stepsEls[currentStep-1].classList.add('active');
+    enableNextCheck();
+  } else {
+    showResult();
+  }
+});
+btnPrev.addEventListener('click', ()=>{
+  if(currentStep>1){
+    stepsEls[currentStep-1].classList.remove('active');
+    currentStep--;
+    stepsEls[currentStep-1].classList.add('active');
+    enableNextCheck();
   }
 });
 
-document.getElementById('orderBtn').addEventListener('click',()=>{alert('Función de pedido activada');});
-document.getElementById('callBtn').addEventListener('click',()=>{window.location.href=`tel:${BARISTA_PHONE}`;});
+function showResult(){
+  const est = document.querySelector('input[name="estetica"]:checked')?.value;
+  const dul = document.querySelector('input[name="dulce"]:checked')?.value;
+  const beb = document.querySelector('input[name="bebida"]:checked')?.value;
+  const ani = document.querySelector('input[name="animo"]:checked')?.value;
+  const alerg = document.getElementById('alergias').value.trim() || "— Ninguna registrada —";
 
-showStep(1);
+  document.getElementById('fraseAnimo').textContent = FRASES_ANIMO[ani] || "";
+  document.getElementById('alergiaNota').textContent = alerg;
+
+  const recContainer = document.getElementById('recommendations');
+  recContainer.innerHTML = "";
+
+  const obraCard = document.createElement('div');
+  obraCard.className="mini-card";
+  obraCard.innerHTML=`<strong>Obra sugerida</strong><br>${OBRAS[est] || ""}`;
+  recContainer.appendChild(obraCard);
+
+  const bebidaCard = document.createElement('div');
+  bebidaCard.className="mini-card";
+  bebidaCard.innerHTML=`<strong>Maridaje y bebida</strong><br>${BEBIDAS[beb] || ""}`;
+  recContainer.appendChild(bebidaCard);
+
+  const postreCard = document.createElement('div');
+  postreCard.className="mini-card";
+  postreCard.innerHTML=`<strong>Repostería</strong><br>${REPOSTERIA[dul] || ""}`;
+  recContainer.appendChild(postreCard);
+
+  document.getElementById('steps').style.display='none';
+  document.querySelector('.nav').style.display='none';
+  document.getElementById('resultSection').style.display='block';
+}
+
+// inicialización
+enableNextCheck();
 </script>
+
 </body>
 </html>
