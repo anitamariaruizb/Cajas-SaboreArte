@@ -1,176 +1,261 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Café Galería Orquídea — Experiencia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --orchid-1: #efe8f6; --orchid-2: #e6d6f0; --orchid-3: #d8c0e8; --accent: #6b2f6e;
-      --warm: #a87b56; --card-bg: rgba(255,255,255,0.9); --muted: #6f635f; --radius: 14px;
-    }
-    html,body{height:100%;margin:0;font-family: "Playfair Display", serif;background-color: var(--orchid-1);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-    body{display:flex;align-items:center;justify-content:center;padding:28px;background-image: radial-gradient(circle at 10% 20%, rgba(216,192,232,0.25), transparent 20%), radial-gradient(circle at 90% 80%, rgba(230,214,240,0.18), transparent 20%), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'><g fill='%238f6d92' opacity='0.06'><path d='M120 200c40-30 90 40 120 20 30-20 40-80 80-60 40 20 10 90-20 110-30 20-110 0-140 30-30 30-80-20-40-100z'></path><path d='M600 520c-40 30-90-40-120-20-30 20-40 80-80 60-40-20-10-90 20-110 30-20 110 0 140-30 30-30 80 20 40 100z'></path></g></svg>");background-repeat: no-repeat;background-size: cover;min-height:100vh;}
-    .wrap {width:100%; max-width:720px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92)); border-radius: var(--radius); box-shadow: 0 20px 60px rgba(106, 78, 110, 0.14); padding: 28px; box-sizing: border-box; backdrop-filter: blur(4px);}
-    header{text-align:center;margin-bottom: 18px;}
-    header h1{margin:0;font-size:28px;color: var(--accent);letter-spacing:0.4px;}
-    header p{margin:8px 0 0;color:var(--muted);font-size:15px;}
-    .card {background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 18px; box-shadow: 0 8px 24px rgba(102, 78, 102, 0.06); position:relative; min-height:160px; overflow: hidden;}
-    .step-title {font-size:18px; margin:0 0 8px; color: var(--accent);}
-    .step-desc {margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.4; max-width: 90%;}
-    .options {display:flex; flex-direction:column; gap:10px;}
-    .option {display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:10px; border:1px solid rgba(107,47,110,0.08); cursor:pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s; background: transparent;}
-    .option:hover{transform: translateY(-4px); box-shadow: 0 8px 20px rgba(107,47,110,0.06);}
-    .option input[type="radio"]{width:18px;height:18px; accent-color: var(--accent);}
-    .option label{cursor:pointer; font-size:15px; color: #3e3540;}
-    .nav {display:flex; justify-content:space-between; gap:12px; margin-top:18px;}
-    button.btn {flex:1; border: none; padding:12px 14px; border-radius:10px; font-weight:600; cursor:pointer; font-size:15px; transition: transform .12s ease, opacity .12s;}
-    button.btn:active{ transform: translateY(1px); }
-    .btn-secondary{background: transparent; color: var(--muted); border:1px solid rgba(99,86,99,0.06);}
-    .btn-primary{background: linear-gradient(180deg, var(--accent), #5a255f); color: #fff; box-shadow: 0 8px 20px rgba(107,47,110,0.14);}
-    .btn-primary:disabled{opacity:0.45; cursor: not-allowed;}
-    .steps {position:relative; min-height:220px;}
-    .step-panel{position:absolute; inset:0; opacity:0; transform: translateY(10px); transition: opacity .32s ease, transform .32s ease; pointer-events:none;}
-    .step-panel.active{opacity:1; transform: translateY(0); pointer-events:auto; position:relative;}
-    .result {margin-top:18px; padding:20px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,244,248,0.95)); border:1px solid rgba(107,47,110,0.06); box-shadow: 0 16px 40px rgba(107,47,110,0.06);}
-    .result h2{margin:0 0 8px; color:var(--accent); font-size:20px;}
-    .result p.lead{margin:0 0 14px; color:var(--muted);}
-    .result .cards {display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:12px;}
-    .mini-card{padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(232,221,238,0.5), rgba(255,255,255,0.6)); border:1px solid rgba(107,47,110,0.04); color:#3b2e3a;}
-    .result .actions{margin-top:14px; display:flex; gap:10px;}
-    @media (max-width:520px){.wrap{ padding:18px; } header h1{ font-size:20px; } .card{ padding:16px; }}
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Café Galería Orquídea — Experiencia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --orchid-1: #efe8f6; --orchid-2: #e6d6f0; --orchid-3: #d8c0e8; --accent: #6b2f6e;
+      --warm: #a87b56; --card-bg: rgba(255,255,255,0.9); --muted: #6f635f; --radius: 14px;
+    }
+    html,body{height:100%;margin:0;font-family: "Playfair Display", serif;background-color: var(--orchid-1);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+    body{display:flex;align-items:center;justify-content:center;padding:28px;background-image: radial-gradient(circle at 10% 20%, rgba(216,192,232,0.25), transparent 20%), radial-gradient(circle at 90% 80%, rgba(230,214,240,0.18), transparent 20%), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'><g fill='%238f6d92' opacity='0.06'><path d='M120 200c40-30 90 40 120 20 30-20 40-80 80-60 40 20 10 90-20 110-30 20-110 0-140 30-30 30-80-20-40-100z'></path><path d='M600 520c-40 30-90-40-120-20-30 20-40 80-80 60-40-20-10-90 20-110 30-20 110 0 140-30 30-30 80 20 40 100z'></path></g></svg>");background-repeat: no-repeat;background-size: cover;min-height:100vh;}
+    .wrap {width:100%; max-width:720px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92)); border-radius: var(--radius); box-shadow: 0 20px 60px rgba(106, 78, 110, 0.14); padding: 28px; box-sizing: border-box; backdrop-filter: blur(4px);}
+    header{text-align:center;margin-bottom: 18px;}
+    header h1{margin:0;font-size:28px;color: var(--accent);letter-spacing:0.4px;}
+    header p{margin:8px 0 0;color:var(--muted);font-size:15px;}
+    .card {background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 18px; box-shadow: 0 8px 24px rgba(102, 78, 102, 0.06); position:relative; min-height:160px; overflow: hidden;}
+    .step-title {font-size:18px; margin:0 0 8px; color: var(--accent);}
+    .step-desc {margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.4; max-width: 90%;}
+    .options {display:flex; flex-direction:column; gap:10px;}
+    .option {display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:10px; border:1px solid rgba(107,47,110,0.08); cursor:pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s; background: transparent;}
+    .option:hover{transform: translateY(-4px); box-shadow: 0 8px 20px rgba(107,47,110,0.06);}
+    .option input[type="radio"]{width:18px;height:18px; accent-color: var(--accent);}
+    .option label{cursor:pointer; font-size:15px; color: #3e3540;}
+    .nav {display:flex; justify-content:space-between; gap:12px; margin-top:18px;}
+    button.btn {flex:1; border: none; padding:12px 14px; border-radius:10px; font-weight:600; cursor:pointer; font-size:15px; transition: transform .12s ease, opacity .12s;}
+    button.btn:active{ transform: translateY(1px); }
+    .btn-secondary{background: transparent; color: var(--muted); border:1px solid rgba(99,86,99,0.06);}
+    .btn-primary{background: linear-gradient(180deg, var(--accent), #5a255f); color: #fff; box-shadow: 0 8px 20px rgba(107,47,110,0.14);}
+    .btn-primary:disabled{opacity:0.45; cursor: not-allowed;}
+    .steps {position:relative; min-height:220px;}
+    .step-panel{position:absolute; inset:0; opacity:0; transform: translateY(10px); transition: opacity .32s ease, transform .32s ease; pointer-events:none;}
+    .step-panel.active{opacity:1; transform: translateY(0); pointer-events:auto; position:relative;}
+    .result {margin-top:18px; padding:20px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,244,248,0.95)); border:1px solid rgba(107,47,110,0.06); box-shadow: 0 16px 40px rgba(107,47,110,0.06);}
+    .result h2{margin:0 0 8px; color:var(--accent); font-size:20px;}
+    .result p.lead{margin:0 0 14px; color:var(--muted);}
+    .result .cards {display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:12px;}
+    .mini-card{padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(232,221,238,0.5), rgba(255,255,255,0.6)); border:1px solid rgba(107,47,110,0.04); color:#3b2e3a;}
+    .result .actions{margin-top:14px; display:flex; gap:10px;}
+    @media (max-width:520px){.wrap{ padding:18px; } header h1{ font-size:20px; } .card{ padding:16px; }}
+  </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-labelledby="mainTitle">
-    <header>
-      <h1 id="mainTitle">Café Galería Orquídea</h1>
-      <p>Responde unas breves preguntas para personalizar tu visita —una experiencia hecha a medida.</p>
-    </header>
+  <div class="wrap" role="main" aria-labelledby="mainTitle">
+    <header>
+      <h1 id="mainTitle">Café Galería Orquídea</h1>
+      <p>Responde unas breves preguntas para personalizar tu visita —una experiencia hecha a medida.</p>
+    </header>
 
-    <div class="card" aria-live="polite">
-      <div class="steps" id="steps">
-        <!-- STEP 1 a STEP 5: igual que antes (no cambian) -->
-        <!-- ... puedes mantener tu HTML de preguntas aquí ... -->
-      </div>
-      <div class="nav" aria-hidden="false">
-        <button id="btnPrev" class="btn btn-secondary" type="button" title="Anterior">Anterior</button>
-        <button id="btnNext" class="btn btn-primary" type="button" title="Siguiente" disabled>Siguiente</button>
-      </div>
-    </div>
+    <div class="card" aria-live="polite">
+      <div class="steps" id="steps">
+        
+                <div class="step-panel" data-step="1">
+            <h3 class="step-title">🖼️ 1. Gustos Estéticos Generales</h3>
+            <p class="step-desc">Esto influirá en las **recomendaciones de la Galería de Arte**.</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="estetica" value="Barroco" required>Barroco (Dramático, Fuerte Contraste)</label>
+                <label class="option"><input type="radio" name="estetica" value="Renacentista">Renacentista (Clásico, Armónico, Proporción)</label>
+                <label class="option"><input type="radio" name="estetica" value="Impresionista">Impresionista (Luz, Color, Pinceladas Sueltas)</label>
+                <label class="option"><input type="radio" name="estetica" value="Abstracto">Abstracto (Forma, Color y Línea)</label>
+                <label class="option"><input type="radio" name="estetica" value="Pop Art">Pop Art (Cultura Popular, Colores Vivos)</label>
+            </div>
+        </div>
 
-    <div id="resultSection" class="result" style="display:none;" aria-live="polite">
-      <h2>Tu experiencia personalizada</h2>
-      <p class="lead" id="fraseAnimo"></p>
-      <div class="cards" id="recommendations"></div>
-      <div class="actions">
-        <button id="orderBtn" class="btn btn-primary">Pedir ahora</button>
-        <button id="callBtn" class="btn btn-secondary">Llamar a un barista</button>
-      </div>
-      <p style="margin-top:12px;color:var(--muted);font-size:13px;">
-        Antes de confirmar, revisa las restricciones: <span id="alergiaNota" style="font-weight:700;"></span>
-      </p>
-    </div>
-  </div>
+                <div class="step-panel" data-step="2">
+            <h3 class="step-title">🍫 2. Gustos en Comida Dulce</h3>
+            <p class="step-desc">Esto influirá en las **recomendaciones de Repostería**.</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="dulce" value="Chocolate Negro" required>Chocolate Negro (Intenso)</label>
+                <label class="option"><input type="radio" name="dulce" value="Arequipe">Arequipe / Cajeta (Dulce de Leche)</label>
+                <label class="option"><input type="radio" name="dulce" value="Frutas">Frutas y Cítricos (Fresco)</label>
+                <label class="option"><input type="radio" name="dulce" value="Caramelo">Caramelo y Vainilla (Cremoso)</label>
+                <label class="option"><input type="radio" name="dulce" value="Especiado">Especiado (Canela, Jengibre)</label>
+            </div>
+        </div>
+        
+                <div class="step-panel" data-step="3">
+            <h3 class="step-title">☕ 3. Tipo de Café/Bebidas</h3>
+            <p class="step-desc">Esto influirá en las **recomendaciones de Bebidas y Maridaje**.</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="cafe" value="Cítricas y Florales" required>Cítricas y Florales (Tostado Ligero)</label>
+                <label class="option"><input type="radio" name="cafe" value="Chocolate y Nuez">Chocolate y Nuez (Tostado Medio, Clásico)</label>
+                <label class="option"><input type="radio" name="cafe" value="Terrosas">Terrosas y Especiadas (Tostado Oscuro, Intenso)</label>
+                <label class="option"><input type="radio" name="cafe" value="Sin Café">Sin Café (Infusiones/Tés)</label>
+            </div>
+        </div>
 
-  <script>
-    const BARISTA_PHONE = '+573000000000';
+                <div class="step-panel" data-step="4">
+            <h3 class="step-title">😊 4. ¿Cómo te Sientes Hoy?</h3>
+            <p class="step-desc">La emoción del momento influirá en la frase de bienvenida de tu experiencia.</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="animo" value="Feliz" required>Feliz (Radiante, Positivo)</label>
+                <label class="option"><input type="radio" name="animo" value="Melancólico">Melancólico (Pensativo, Nostálgico)</label>
+                <label class="option"><input type="radio" name="animo" value="Curioso">Curioso (Explorador, Inquieto)</label>
+                <label class="option"><input type="radio" name="animo" value="Relajado">Relajado (Tranquilo, En Paz)</label>
+            </div>
+        </div>
 
-    // ====== NUEVAS RECOMENDACIONES CON EJEMPLOS EXACTOS ======
-    const OBRAS = {
-      "Barroco": "Pintura barroca: 'Las Meninas' de Velázquez — luz dramática y detalle realista",
-      "Renacentista": "Obra renacentista: 'El nacimiento de Venus' de Botticelli — armonía y proporción",
-      "Impresionista": "Obra impresionista: 'La noche estrellada' de Van Gogh — pinceladas sueltas y color vibrante",
-      "Abstracto": "Composición abstracta: 'Composición VII' de Kandinsky — formas y color emocional",
-      "Pop Art": "Obra pop: 'Campbell’s Soup' de Warhol — reinterpretación de objetos cotidianos"
-    };
-    const REPOSTERIA = {
-      "Chocolate Negro": "Trufas de chocolate 70% — intensidad equilibrada",
-      "Arequipe": "Brownie con arequipe — textura y dulzura",
-      "Frutas": "Galletas de mantequilla con glaseado cítrico",
-      "Caramelo": "Fudge de caramelo salado",
-      "Especiado": "Mini pan de especias con toque de canela"
-    };
-    const BEBIDAS = {
-      "Cítricas y Florales": "Frapuccino con caramelo — notas dulces y cremosas",
-      "Chocolate y Nuez": "Latte de chocolate y nuez — sabor medio e intenso",
-      "Terrosas": "Café espresso con especias — notas terrosas y cálidas",
-      "Sin Café": "Té de frutos rojos — refrescante y sin cafeína"
-    };
-    const FRASES_ANIMO = {
-      "Feliz": "Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
-      "Melancólico": "Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
-      "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
-      "Relajado": "Respira lento: este es un momento para la calma y el gusto pausado."
-    };
+                <div class="step-panel" data-step="5">
+            <h3 class="step-title">⚠️ 5. Alergias y Restricciones</h3>
+            <p class="step-desc">Menciona cualquier alergia (ej: nueces, gluten). Esto no afecta las recomendaciones, sino la preparación.</p>
+            <input type="text" id="alergias" placeholder="Ej: Nueces, Gluten" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(107,47,110,0.15);">
+        </div>
+      </div>
+      <div class="nav" aria-hidden="false">
+        <button id="btnPrev" class="btn btn-secondary" type="button" title="Anterior">Anterior</button>
+        <button id="btnNext" class="btn btn-primary" type="button" title="Siguiente" disabled>Siguiente</button>
+      </div>
+    </div>
 
-    const totalSteps = 5;
-    let currentStep = 1;
-    const stepsEls = Array.from(document.querySelectorAll('.step-panel'));
-    const btnPrev = document.getElementById('btnPrev');
-    const btnNext = document.getElementById('btnNext');
+    <div id="resultSection" class="result" style="display:none;" aria-live="polite">
+      <h2>Tu experiencia personalizada</h2>
+      <p class="lead" id="fraseAnimo"></p>
+      <div class="cards" id="recommendations"></div>
+      <div class="actions">
+        <button id="orderBtn" class="btn btn-primary">Pedir ahora</button>
+        <button id="callBtn" class="btn btn-secondary">Llamar a un barista</button>
+      </div>
+      <p style="margin-top:12px;color:var(--muted);font-size:13px;">
+        Antes de confirmar, revisa las restricciones: <span id="alergiaNota" style="font-weight:700;"></span>
+      </p>
+    </div>
+  </div>
 
-    function showStep(n){
-      stepsEls.forEach(s => s.classList.remove('active'));
-      document.querySelector(`.step-panel[data-step="${n}"]`).classList.add('active');
-      currentStep = n;
-      btnPrev.style.display = (n > 1) ? 'inline-flex' : 'none';
-      btnNext.textContent = (n === totalSteps) ? 'Ver recomendación' : 'Siguiente';
-      checkCanProceed();
-    }
+  <script>
+    const BARISTA_PHONE = '+573000000000';
 
-    function checkCanProceed(){
-      const panel = document.querySelector(`.step-panel[data-step="${currentStep}"]`);
-      const radios = panel.querySelectorAll('input[type="radio"]');
-      const text = panel.querySelector('input[type="text"], textarea, input[type="search"]');
-      btnNext.disabled = radios.length ? !Array.from(radios).some(r=>r.checked) : false;
-    }
+    // ====== RECOMENDACIONES Y MARIDAJES (Corregido: Cítricas y Florales) ======
+    const OBRAS = {
+      "Barroco": "Pintura barroca: 'Las Meninas' de Velázquez — luz dramática y detalle realista",
+      "Renacentista": "Obra renacentista: 'El nacimiento de Venus' de Botticelli — armonía y proporción",
+      "Impresionista": "Obra impresionista: 'La noche estrellada' de Van Gogh — pinceladas sueltas y color vibrante",
+      "Abstracto": "Composición abstracta: 'Composición VII' de Kandinsky — formas y color emocional",
+      "Pop Art": "Obra pop: 'Campbell’s Soup' de Warhol — reinterpretación de objetos cotidianos"
+    };
+    const REPOSTERIA = {
+      "Chocolate Negro": "Trufas de chocolate 70% — intensidad equilibrada",
+      "Arequipe": "Brownie con arequipe — textura y dulzura",
+      "Frutas": "Galletas de mantequilla con glaseado cítrico",
+      "Caramelo": "Fudge de caramelo salado",
+      "Especiado": "Mini pan de especias con toque de canela"
+    };
+    const BEBIDAS = {
+      "Cítricas y Florales": "Café de origen (filtrado) — notas cítricas y florales", // CORREGIDO para mayor coherencia con el nombre
+      "Chocolate y Nuez": "Latte de chocolate y nuez — sabor medio e intenso",
+      "Terrosas": "Café espresso con especias — notas terrosas y cálidas",
+      "Sin Café": "Té de frutos rojos — refrescante y sin cafeína"
+    };
+    const FRASES_ANIMO = {
+      "Feliz": "Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
+      "Melancólico": "Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
+      "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
+      "Relajado": "Respira lento: este es un momento para la calma y el gusto pausado."
+    };
 
-    document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.addEventListener('change', ()=>{ btnNext.disabled = false; }); });
-    document.getElementById('alergias').addEventListener('input', () => { btnNext.disabled = false; });
+    const totalSteps = 5;
+    let currentStep = 1;
+    const stepsEls = Array.from(document.querySelectorAll('.step-panel'));
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
 
-    btnPrev.addEventListener('click', ()=>{ if(currentStep>1) showStep(currentStep-1); });
-    btnNext.addEventListener('click', ()=>{
-      if(currentStep < totalSteps){ showStep(currentStep + 1); } 
-      else { generarRecomendacion(); }
-    });
+    // Muestra el paso actual y actualiza los botones de navegación.
+    function showStep(n){
+      stepsEls.forEach(s => s.classList.remove('active'));
+      const targetStepEl = document.querySelector(`.step-panel[data-step="${n}"]`);
+      if (targetStepEl) {
+        targetStepEl.classList.add('active');
+      } else {
+        // Fallback por si hay un error de numeración
+        stepsEls[0].classList.add('active');
+        n = 1;
+      }
+      
+      currentStep = n;
+      btnPrev.style.display = (n > 1) ? 'inline-flex' : 'none';
+      btnNext.textContent = (n === totalSteps) ? 'Ver recomendación' : 'Siguiente';
+      checkCanProceed();
+    }
 
-    function generarRecomendacion(){
-      const estetica = document.querySelector('input[name="estetica"]:checked')?.value || 'Renacentista';
-      const dulce = document.querySelector('input[name="dulce"]:checked')?.value || 'Frutas';
-      const cafe = document.querySelector('input[name="cafe"]:checked')?.value || 'Chocolate y Nuez';
-      const animo = document.querySelector('input[name="animo"]:checked')?.value || 'Relajado';
-      const alergias = document.getElementById('alergias').value.trim();
+    // Verifica si el paso actual ha sido respondido (solo para radios)
+    function checkCanProceed(){
+      const panel = document.querySelector(`.step-panel[data-step="${currentStep}"]`);
+      const radios = panel.querySelectorAll('input[type="radio"]');
+      
+      // Si hay radios, debe haber uno marcado para avanzar. Si no hay (como en el paso 5), se habilita.
+      btnNext.disabled = radios.length ? !Array.from(radios).some(r=>r.checked) : false;
+    }
 
-      const obra = OBRAS[estetica];
-      const postre = REPOSTERIA[dulce];
-      const bebida = BEBIDAS[cafe];
-      const frase = FRASES_ANIMO[animo];
+    // Escucha los cambios en los radios para habilitar el botón "Siguiente"
+    document.querySelectorAll('input[type="radio"]').forEach(r=>{ 
+      r.addEventListener('change', ()=>{ checkCanProceed(); }); 
+    });
 
-      document.getElementById('fraseAnimo').textContent = frase;
+    // En el paso de alergias, el botón "Siguiente/Ver recomendación" se habilita por defecto (ya que es opcional)
+    // La línea de abajo que deshabilitaba el botón al escribir algo no es necesaria en este caso.
+    // document.getElementById('alergias').addEventListener('input', () => { btnNext.disabled = false; });
 
-      const recCont = document.getElementById('recommendations');
-      recCont.innerHTML = '';
-      const createMini = (title, text) => {
-        const d = document.createElement('div');
-        d.className = 'mini-card';
-        d.innerHTML = `<strong style="display:block;margin-bottom:6px;">${title}</strong><div style="font-size:14px;color:var(--muted)">${text}</div>`;
-        return d;
-      };
+    // Lógica de navegación
+    btnPrev.addEventListener('click', ()=>{ 
+      if(currentStep > 1) { 
+        showStep(currentStep - 1); 
+      } 
+    });
+    
+    btnNext.addEventListener('click', ()=>{
+      if(currentStep < totalSteps){ 
+        showStep(currentStep + 1); 
+      } 
+      else { 
+        generarRecomendacion(); 
+      }
+    });
 
-      recCont.appendChild(createMini('Obra sugerida', obra));
-      recCont.appendChild(createMini('Maridaje y bebida', bebida));
-      recCont.appendChild(createMini('Repostería', postre));
+    // Genera y muestra los resultados finales
+    function generarRecomendacion(){
+      const estetica = document.querySelector('input[name="estetica"]:checked')?.value || 'Renacentista';
+      const dulce = document.querySelector('input[name="dulce"]:checked')?.value || 'Frutas';
+      const cafe = document.querySelector('input[name="cafe"]:checked')?.value || 'Chocolate y Nuez';
+      const animo = document.querySelector('input[name="animo"]:checked')?.value || 'Relajado';
+      const alergias = document.getElementById('alergias').value.trim();
 
-      document.getElementById('alergiaNota').textContent = alergias ? alergias.toUpperCase() : '— Ninguna registrada —';
-      document.getElementById('resultSection').style.display = 'block';
-      document.getElementById('resultSection').scrollIntoView({behavior:'smooth'});
+      const obra = OBRAS[estetica];
+      const postre = REPOSTERIA[dulce];
+      const bebida = BEBIDAS[cafe];
+      const frase = FRASES_ANIMO[animo];
 
-      document.getElementById('orderBtn').onclick = ()=> {
-        const email = 'tu@correo.com';
-        const subject = encodeURIComponent('Pedido experiencia — Café Galería Orquídea');
-        const body = encodeURIComponent(
+      document.getElementById('fraseAnimo').textContent = frase;
+
+      const recCont = document.getElementById('recommendations');
+      recCont.innerHTML = '';
+      
+      // Función para crear las tarjetas de resultado
+      const createMini = (title, text) => {
+        const d = document.createElement('div');
+        d.className = 'mini-card';
+        d.innerHTML = `<strong style="display:block;margin-bottom:6px;">${title}</strong><div style="font-size:14px;color:var(--muted)">${text}</div>`;
+        return d;
+      };
+
+      recCont.appendChild(createMini('Obra sugerida', obra));
+      recCont.appendChild(createMini('Maridaje y bebida', bebida));
+      recCont.appendChild(createMini('Repostería', postre));
+
+      // Mostrar alergias o mensaje de ninguna restricción
+      document.getElementById('alergiaNota').textContent = alergias ? alergias.toUpperCase() : '— Ninguna registrada —';
+      
+      // Transición a la vista de resultados
+      document.querySelector('.card').style.display = 'none'; // Oculta la tarjeta de pasos
+      document.getElementById('resultSection').style.display = 'block';
+      document.getElementById('resultSection').scrollIntoView({behavior:'smooth'});
+
+      // Configuración de botones de acción
+      document.getElementById('orderBtn').onclick = ()=> {
+        const email = 'tu@correo.com'; // Dirección de correo de destino
+        const subject = encodeURIComponent('Pedido experiencia — Café Galería Orquídea');
+        const body = encodeURIComponent(
 `Hola,
 Quiero pedir la experiencia personalizada:
 - Estado de ánimo: ${animo}
@@ -179,14 +264,16 @@ Quiero pedir la experiencia personalizada:
 - Repostería: ${postre}
 - Alergias/Restricciones: ${alergias || 'Ninguna'}
 Gracias.`
-        );
-        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-      };
-      document.getElementById('callBtn').onclick = ()=> { window.location.href = `tel:${BARISTA_PHONE}`; };
-    }
+        );
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      };
+      document.getElementById('callBtn').onclick = ()=> { window.location.href = `tel:${BARISTA_PHONE}`; };
+    }
 
-    showStep(1);
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !btnNext.disabled){ btnNext.click(); } });
-  </script>
+    // Inicialización
+    showStep(1);
+    // Permite usar Enter para avanzar
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !btnNext.disabled){ btnNext.click(); } });
+  </script>
 </body>
 </html>
