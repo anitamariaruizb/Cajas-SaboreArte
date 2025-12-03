@@ -284,10 +284,10 @@
             <div class="option">
               <input type="radio" id="beb-cal-acog" name="bebida" value="Caliente y acogedora">
               <label for="beb-cal-acog">Caliente y acogedora</label>
-              v>
+            </div>
             <div class="option">
               <input type="radio" id="beb-crem-deli" name="bebida" value="Cremosa y deliciosa">
-              <label for="beb-cal-acog">Cremosa y deliciosa</label>
+              <label for="beb-crem-deli">Cremosa y deliciosa</label>
             </div>
             <div class="option">
               <input type="radio" id="beb-fres-esp" name="bebida" value="Fresca y especiada">
@@ -335,7 +335,7 @@
 
       </div>
 
-      <div class="nav" aria-hidden="false">
+      <div class="nav">
         <button id="btnPrev" class="btn btn-secondary" type="button" title="Anterior">Anterior</button>
         <button id="btnNext" class="btn btn-primary" type="button" title="Siguiente" disabled>Siguiente</button>
       </div>
@@ -379,91 +379,81 @@ const BEBIDAS = {
   "Fría y refrescante": "Frapuccino con caramelo — notas dulces y suaves",
   "Caliente y acogedora": "Café latte — cremoso y reconfortante",
   "Fresca y especiada": "Té chai especiado — cálido y aromático",
-  "Cremosa y deliciosa": "Malteada de Oreo - cremosa y dulce",
+  "Cremosa y deliciosa": "Malteada de Oreo — cremosa y dulce",
   "Suave y delicada": "Infusión de frutos rojos — suave y delicada"
 };
 const FRASES_ANIMO = {
   "Feliz": "Hoy es un día para celebrar: deja que el arte y el aroma te alegren.",
   "Melancólico": "Permítete sentir: el café y la contemplación pueden ser un abrazo tenue.",
-  "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores nuevos.",
-  "Relajado": "Respira lento: este es un momento para la calma y el gusto pausado."
+  "Curioso": "Abre tus sentidos: emprende un paseo entre obras y sabores.",
+  "Relajado": "Respira y disfruta: cada sorbo y cada color te acompañan."
 };
 
-const totalSteps = 5;
-let currentStep = 1;
-const stepsEls = Array.from(document.querySelectorAll('.step-panel'));
-const btnPrev = document.getElementById('btnPrev');
+const steps = document.querySelectorAll('.step-panel');
 const btnNext = document.getElementById('btnNext');
+const btnPrev = document.getElementById('btnPrev');
+let currentStep = 0;
 
-const enableNextCheck = () => {
-  const currentPanel = stepsEls[currentStep-1];
-  const checked = currentPanel.querySelector('input[type="radio"]:checked');
-  if(currentStep === 5){ // input text
-    btnNext.disabled = !document.getElementById('alergias').value.trim();
-  } else {
-    btnNext.disabled = !checked;
-  }
-};
-
-stepsEls.forEach(panel=>{
-  panel.addEventListener('change',enableNextCheck);
-});
-document.getElementById('alergias').addEventListener('input',enableNextCheck);
-
-btnNext.addEventListener('click', ()=>{
-  if(currentStep < totalSteps){
-    stepsEls[currentStep-1].classList.remove('active');
-    currentStep++;
-    stepsEls[currentStep-1].classList.add('active');
-    enableNextCheck();
-  } else {
-    showResult();
-  }
-});
-btnPrev.addEventListener('click', ()=>{
-  if(currentStep>1){
-    stepsEls[currentStep-1].classList.remove('active');
-    currentStep--;
-    stepsEls[currentStep-1].classList.add('active');
-    enableNextCheck();
-  }
-});
-
-function showResult(){
-  const est = document.querySelector('input[name="estetica"]:checked')?.value;
-  const dul = document.querySelector('input[name="dulce"]:checked')?.value;
-  const beb = document.querySelector('input[name="bebida"]:checked')?.value;
-  const ani = document.querySelector('input[name="animo"]:checked')?.value;
-  const alerg = document.getElementById('alergias').value.trim() || "— Ninguna registrada —";
-
-  document.getElementById('fraseAnimo').textContent = FRASES_ANIMO[ani] || "";
-  document.getElementById('alergiaNota').textContent = alerg;
-
-  const recContainer = document.getElementById('recommendations');
-  recContainer.innerHTML = "";
-
-  const obraCard = document.createElement('div');
-  obraCard.className="mini-card";
-  obraCard.innerHTML=`<strong>Obra sugerida</strong><br>${OBRAS[est] || ""}`;
-  recContainer.appendChild(obraCard);
-
-  const bebidaCard = document.createElement('div');
-  bebidaCard.className="mini-card";
-  bebidaCard.innerHTML=`<strong>Maridaje y bebida</strong><br>${BEBIDAS[beb] || ""}`;
-  recContainer.appendChild(bebidaCard);
-
-  const postreCard = document.createElement('div');
-  postreCard.className="mini-card";
-  postreCard.innerHTML=`<strong>Repostería</strong><br>${REPOSTERIA[dul] || ""}`;
-  recContainer.appendChild(postreCard);
-
-  document.getElementById('steps').style.display='none';
-  document.querySelector('.nav').style.display='none';
-  document.getElementById('resultSection').style.display='block';
+function updateNav(){
+  btnPrev.style.display = currentStep===0?'none':'inline-flex';
+  btnNext.disabled = !steps[currentStep].querySelector('input:checked') && currentStep!==4;
 }
 
-// inicialización
-enableNextCheck();
+steps.forEach(step=>{
+  step.addEventListener('change',()=>{
+    updateNav();
+  });
+});
+
+btnNext.addEventListener('click',()=>{
+  if(currentStep<steps.length-1){
+    steps[currentStep].classList.remove('active');
+    currentStep++;
+    steps[currentStep].classList.add('active');
+    updateNav();
+  } else {
+    mostrarResultados();
+  }
+});
+
+btnPrev.addEventListener('click',()=>{
+  if(currentStep>0){
+    steps[currentStep].classList.remove('active');
+    currentStep--;
+    steps[currentStep].classList.add('active');
+    updateNav();
+  }
+});
+
+function mostrarResultados(){
+  document.querySelector('.card').style.display='none';
+  const resSec = document.getElementById('resultSection');
+  const estetica = document.querySelector('input[name="estetica"]:checked')?.value;
+  const dulce = document.querySelector('input[name="dulce"]:checked')?.value;
+  const bebida = document.querySelector('input[name="bebida"]:checked')?.value;
+  const animo = document.querySelector('input[name="animo"]:checked')?.value;
+  const alergias = document.getElementById('alergias').value;
+
+  document.getElementById('fraseAnimo').textContent = FRASES_ANIMO[animo] || '';
+
+  const cardsDiv = document.getElementById('recommendations');
+  cardsDiv.innerHTML = '';
+  if(estetica) cardsDiv.innerHTML+= `<div class="mini-card"><strong>Obra sugerida:</strong> ${OBRAS[estetica]}</div>`;
+  if(dulce) cardsDiv.innerHTML+= `<div class="mini-card"><strong>Postre recomendado:</strong> ${REPOSTERIA[dulce]}</div>`;
+  if(bebida) cardsDiv.innerHTML+= `<div class="mini-card"><strong>Bebida ideal:</strong> ${BEBIDAS[bebida]}</div>`;
+
+  document.getElementById('alergiaNota').textContent = alergias || 'Ninguna';
+  resSec.style.display='block';
+}
+
+document.getElementById('orderBtn').addEventListener('click',()=>{
+  alert('Pedido enviado a la barra, ¡disfruta tu experiencia!');
+});
+document.getElementById('callBtn').addEventListener('click',()=>{
+  window.location.href = `tel:${BARISTA_PHONE}`;
+});
+
+updateNav();
 </script>
 
 </body>
